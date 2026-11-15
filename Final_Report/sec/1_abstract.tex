@@ -1,25 +1,24 @@
 \begin{abstract}
-University support offices can hold only a limited number of outreach meetings and must therefore
-decide early which students to contact. This study examines whether a tabular foundation model,
-\tabicl, should be used to rank students for such meetings after the first semester, and whether its
-explanations are trustworthy and comprehensible. Using 3,630 Dropout or Graduate records from the
-public UCI \emph{Predict Students' Dropout and Academic Success} dataset, all modelling choices were
-fixed on a validation split before a single locked final test, in which each of five models flagged
-the top 20\% of students, the assumed outreach capacity. \tabicl achieved a ROC-AUC of 0.957 and
-flagged 109 test students, 108 of whom dropped out (precision 0.991, recall 0.507); however, it was
-not reliably better than XGBoost (difference 0.001, 95\% interval $-0.006$ to 0.009) or an
-interpretable Explainable Boosting Machine (0.003, $-0.007$ to 0.014). A post-hoc audit of all 544
-validation students showed that the SHAP explanations were faithful to the model but often
-unstable: when the comparison group changed, 411 students fell below the 0.80 stability threshold
-for their top five reasons. Moreover, the flags largely restated information already visible to
-advisers: 78 of the 108 flagged validation students had passed no first-semester units, and
-first-semester progress was the leading reason for every flagged student. In a 50-person study,
-there was no evidence that explanation charts improved participants' predictions of the model's
-flag (0.900 with charts versus 0.916 without; difference $-0.016$, 95\% interval $-0.060$ to 0.032).
-On this dataset, these findings indicate that a simpler interpretable model matched the foundation
-model's predictive performance and is the better candidate for further validation, that
-explanations should be presented with their uncertainty, and that any use should support, not
-replace, an adviser's judgement.
+University support offices can hold only a limited number of outreach meetings and must decide
+early which students to contact. This study asks whether such an office should rely on a black-box
+model for this decision, taking the tabular foundation model \tabicl as the test case, and whether
+the model's explanations are trustworthy and useful to people. Using 3,630 Dropout or Graduate
+records from the public UCI \emph{Predict Students' Dropout and Academic Success} dataset, all
+modelling choices were fixed on a validation split before a single locked final test, in which each
+of five models flagged the top 20\% of students, the assumed outreach capacity. \tabicl was not
+reliably better than XGBoost (ROC-AUC difference 0.001, 95\% interval $-0.006$ to 0.009) or an
+interpretable Explainable Boosting Machine (EBM; 0.003, $-0.007$ to 0.014): all three reached a
+ROC-AUC between 0.954 and 0.957, and at least 108 of each model's 109 flagged students dropped out.
+A post-hoc audit of all 544 validation students showed that the SHAP explanations were faithful to
+the model but often unstable: when the comparison group changed, 411 students fell below the 0.80
+stability threshold for their top five reasons. The flags also largely restated information already
+visible to advisers, since 78 of the 108 flagged validation students had passed no first-semester
+units. In a 50-person forward-simulation study, there was no evidence that explanation charts
+improved participants' predictions of the model's flag (0.900 with charts versus 0.916 without;
+difference $-0.016$, 95\% interval $-0.060$ to 0.032). On this dataset, the added complexity of the
+foundation model is not justified. The interpretable EBM, whose explanations are exact rather than
+estimated, is the stronger candidate for further validation, and any explanation shown to staff
+should state its uncertainty and support, rather than replace, an adviser's judgement.
 \end{abstract}
 
 \noindent\textbf{Keywords:} student dropout risk, explainable artificial intelligence,

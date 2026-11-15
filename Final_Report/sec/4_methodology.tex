@@ -33,21 +33,19 @@
 \subsection{Dataset and Target}
 
 The study uses the UCI \emph{Predict Students' Dropout and Academic Success} dataset (repository
-dataset 697, CC~BY~4.0)~\citep{realinho2021uci, realinho2022predicting}, which describes 4,424
+dataset 697, released under CC~BY~4.0; \citealp{realinho2021uci, realinho2022predicting}), which describes 4,424
 students from a Portuguese higher-education institution with 36 predictors and three outcomes:
 Dropout (1,421), Enrolled (794) and Graduate (2,209). The distributed file contains no direct
 identifiers, missing values or duplicate rows. The task is binary, Dropout (1) versus Graduate (0),
-yielding 3,630 records. Enrolled students were excluded since their final outcome is unknown. This
+and yields 3,630 records. Enrolled students were excluded, as their final outcome is unknown. This
 exclusion is a genuine limitation: at the moment of decision every student is enrolled, so a
-deployed model would also score students resembling those removed. Section~\ref{sec:sensitivity}
-examines how the model treats them.
+deployed model would also score students resembling those removed (Section~\ref{sec:sensitivity}).
 
 \textbf{Eligibility.} Of the dropouts, 17.3\% (246 of 1,421) took no first-semester evaluations,
-compared with only 3.4\% of graduates (75 of 2,209). Some labelled dropouts may therefore have left
-before the decision point rather than after it, in which case not every flagged ``dropout'' could
-still have been reached by a support meeting. This timing ambiguity is reported as an explicit
-eligibility limitation; Section~\ref{sec:who} analyses who is flagged, and
-Section~\ref{sec:sensitivity} re-ranks students after setting these cases aside.
+compared with only 3.4\% of graduates (75 of 2,209). Some labelled dropouts may thus have left
+before the decision point, in which case not every flagged ``dropout'' could still have been reached
+by a support meeting. This timing ambiguity is treated as an explicit eligibility limitation and is
+examined further in Sections~\ref{sec:who} and~\ref{sec:sensitivity}.
 
 \textbf{Exploratory data analysis.} Table~\ref{tab:eda} compares dropouts and graduates on the
 training split only (2,541 students), leaving the test split uninspected. The classes are moderately
@@ -90,19 +88,19 @@ education and occupation), finances (scholarship, tuition fees up to date and de
 first-semester units (credited, enrolled, evaluated, passed, without evaluation and average grade)
 and national economic indicators. Three derived features complete the 33 inputs: the
 first-semester pass rate and indicators for no units enrolled and no evaluations taken. All six
-second-semester attributes are removed to prevent leakage of future information, and an
+second-semester attributes are removed to prevent leakage of future information, while an
 admission-time window without first-semester results serves as a sensitivity analysis.
 
 \subsection{Frozen Split and Outreach Policy}
 
 The 3,630 records were split once, with stratification, into 70/15/15\% train, validation and test
 sets (2,541, 544 and 545 records; seed 42), and the row identifiers were saved. Every modelling and
-explanation setting was chosen on the validation split. The test split was subsequently used
-exactly once, in a run protected by a lock file and a hash of the frozen code, data and model.
+explanation setting was chosen on the validation split, after which the test split was used exactly
+once, in a run protected by a lock file and a hash of the frozen code, data and model.
 
 The outreach policy flags the $k=\lfloor 0.2n\rfloor$ highest-scoring students in a cohort of size
-$n$ (108 of 544 in validation and 109 of 545 in test), breaking ties by record order. Consequently,
-there is no universal probability threshold: a student's flag depends on their rank within the
+$n$ (108 of 544 in validation and 109 of 545 in test), breaking ties by record order. There is
+consequently no universal probability threshold: a student's flag depends on their rank within the
 cohort.
 
 \subsection{Human-Study Design and Ethics}
@@ -114,30 +112,28 @@ only, $n=25$) or Group~B (profile plus a bar chart of the five largest grouped S
 $n=25$). The chart displayed direction and relative size only, never the score, the base value or
 the flag (Figure~\ref{fig:human-design}).
 
-Each participant first completed one unscored practice case from the validation split and then ten
-scored test cases (five flagged and five not flagged by the model) in one of two fixed orders, a
-seeded order or its exact reverse, yielding four Google Forms. For each case, participants
-predicted whether the model had flagged the student, rated their confidence from 1 to 5 and answered
-three short written questions: why the model decided as it did, what support they would suggest and
-what further information they would want. Group~B additionally answered two chart-reading checks on
-the practice case, and all participants self-reported their total completion time.
+Participants completed the study online and unsupervised through pre-filled Google Forms. Each
+first answered one unscored practice case from the validation split and then ten scored test cases
+(five flagged and five not flagged by the model), presented either in a seeded order or in its exact
+reverse; combined with the two groups, this yielded four forms. For each case, participants predicted whether the model had
+flagged the student, rated their confidence from 1 to 5 and answered three short written questions:
+why the model decided as it did, what support they would suggest and what further information they
+would want. Group~B also answered two chart-reading checks on the practice case, and all
+participants reported their total completion time.
 
 \textbf{Ethics and data governance.} As a class project, the study followed basic research-ethics
-practice (voluntary informed consent, minimal data, no identifiers and restricted access) rather
-than formal ethics-board review. All participants were adults, and taking
-part or declining had no effect on grades, employment or access to services. No names or AIT
-student records were collected; responses carry random participant codes, the case lookup is
-stored separately, raw free text is held outside version control with access limited to the team,
-and only aggregate results are reported. Participants could withdraw through their code until their
-responses entered the aggregate analysis; all 50 completed the study and none were excluded. Raw
-responses and case-linkage files remain in access-restricted storage, excluded from the public
-repository and used only for this course project, and the written answers
-were never used to train, validate or explain the model. The online, unsupervised format is
-discussed as a limitation.
+practice, namely voluntary informed consent, minimal data collection, no identifiers and restricted
+access, rather than formal ethics-board review. All participants were adults, and participation had
+no bearing on grades, employment or access to services. Responses carry random participant codes
+instead of names; the case lookup is stored separately, and raw responses are held in
+access-restricted storage outside the public repository and used only for this course project.
+Participants could withdraw through their code until their responses entered the aggregate
+analysis. The written answers were never used to train, validate or explain the model, and only
+aggregate results are reported.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{human_study_design.png}
+  \includegraphics[width=1.0\linewidth]{human_study_design.png}
   \caption{Two-group forward-simulation design (25 participants per group).}
   \label{fig:human-design}
 \end{figure}

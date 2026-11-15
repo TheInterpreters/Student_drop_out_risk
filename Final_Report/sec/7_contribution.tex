@@ -3,73 +3,83 @@
 
 \subsection{Predictive Value Versus Interpretability}
 
-\tabicl did not justify its complexity. Its advantage over XGBoost and the main-effects EBM lay
-within sampling noise on every metric, and EBM matched or slightly exceeded it at the operating
-point (recall 0.512 vs.\ 0.507; precision 1.000 vs.\ 0.991) while being transparent by
-construction. In line with \citet{rudin2019stop}, the EBM (or logistic regression) would, on this
-evidence, be the preferable choice for any further development: it offers statistically
+The added complexity of \tabicl was not justified. Its advantage over XGBoost and the main-effects
+EBM lay within sampling noise on every metric, and EBM matched or slightly exceeded it at the
+operating point (recall 0.512 vs.\ 0.507; precision 1.000 vs.\ 0.991) while being transparent by
+construction. In line with \citet{rudin2019stop}, the EBM would be the preferable basis for any further
+development, with logistic regression as a close alternative: the EBM offers statistically
 indistinguishable performance, explanations that are the model itself rather than an approximation
-of it, no sampling instability and far cheaper inference (0.007 s versus 10.8 s to score the 545
-test students on a CPU).
+of it, no sampling instability and far cheaper inference (0.007\,s versus 10.8\,s to score the 545
+test students on a CPU). The black-box model nonetheless served its purpose in this study, as its
+opacity is precisely what made the faithfulness, stability and human evaluations necessary.
+
 \subsection{Interpreting the Near-Perfect Precision}
 
-The near-perfect precision does not indicate an excellent screening tool; it arises because the top
-20\% is filled with students whose records already show disengagement (Section~\ref{sec:who}). Such
-students are easy to rank, yet many may already be beyond the reach of a meeting and could be found
-with a transcript query; even among students who sat an evaluation, the flagged ones are those with
-weak results (Section~\ref{sec:sensitivity}). For an officer, the list adds an ordering, not new
-information. The more consequential group is the 105 unflagged validation dropouts, 93 of
-whom passed at least one unit. A simple rule could handle the obvious cases, reserving meetings for
-less visible students.
+The near-perfect precision does not indicate an excellent screening tool. It arises because the top
+20\% is filled with students whose records already show disengagement (Section~\ref{sec:who}); such
+students are easy to rank and could largely be found with a transcript query, and some may already
+be beyond the reach of a meeting. For an officer, the list therefore adds an ordering rather than
+new information. The more consequential group is the 105 unflagged validation dropouts, 93 of whom
+passed at least one unit. A simple rule could handle the obvious cases and reserve meetings for these
+less visible students, whose risk is harder to see in the transcript alone.
 
 \subsection{Implications of the Explanation Audit}
 
-The explanations were faithful under the deletion test and stable under the tested minimal grade
-perturbations. However, the exact list of top reasons often changes when the
-explanation is recomputed with a different seed or comparison group, so the bars should be read as
-an indication of what broadly mattered rather than as a precise ranking. Seed instability may partly
-reflect the one-permutation budget, the minimum that shap allows (a larger budget was not tested),
-whereas background instability reflects a substantive choice of which students count as
-``typical'' and would not disappear with more computation. The local research interface
+The explanations were faithful under the deletion test and stable under minimal grade
+perturbations, yet the exact list of top reasons often changed when the explanation was recomputed
+with a different seed or comparison group. The bars should accordingly be read as an indication of
+what broadly mattered rather than as a precise ranking. Seed instability may partly reflect the
+one-permutation budget, the minimum that shap allows (a larger budget was not tested). Background
+instability, by contrast, reflects a substantive choice of which students count as ``typical'' and
+would not disappear with more computation. For this reason, the local research interface
 (Appendix~\ref{sec:app-interface}) displays each student's stability alongside the reasons.
 
-\textbf{Fee status and recourse.} Tuition fees up to date was the third most important group, and
-for 17 flagged students clearing a fee or debt record would remove the flag. In the model, the arrow
-runs from settled fees to a lower score, but this must not be read as ``paying fees prevents
-dropout'', since the causal arrow may point the other way: students
-already planning to leave, or in financial difficulty, may stop paying, making unpaid fees a symptom
-rather than a cause. A score change is not a causal effect~\citep{karimi2021recourse};
-an unpaid fee is better treated as a prompt for a conversation.
+\textbf{Fee status and recourse.} Tuition fees ranked third by mean SHAP and second by permutation
+importance, and clearing a
+fee or debt record would remove the flag for 17 students. Within the model, the arrow runs from
+settled fees to a lower score, but this must not be read as ``paying fees prevents dropout''. The
+causal arrow may well point the other way: students who already plan to leave, or who face financial
+difficulty, may stop paying, which makes unpaid fees a symptom rather than a cause. As a score change
+is not a causal effect~\citep{karimi2021recourse}, an unpaid fee is better treated as a prompt for a
+conversation.
+
+\textbf{Hypothetical academic support.} First-semester progress was the dominant explanation group,
+and academic support was also the help participants suggested most often (Section~\ref{sec:qual}).
+Students who passed few or no units could therefore be offered tutoring, academic advising or a
+structured study plan, with more targeted assistance for those who passed none. Such support may help
+later grades and course completion, but its effect on dropout was not tested in this study. As
+first-semester results are already fixed at the prediction point, these suggestions represent
+possible human responses rather than changes that would alter the model's flag.
 
 \subsection{Interpreting the Human Study}
 
 The human study tested whether people could predict the model's flag, not whether explanations
-improve support decisions. For Group~B the task partly became a chart-reading exercise, since adding
-up the bars largely reconstructs the flag (Section~\ref{sec:audit}), and it was also easy without
-charts, as flagged profiles were visibly weak. The lack of an accuracy gain is therefore not proof that
-explanations lack value. Nevertheless, case C01 shows that bars displayed without the cohort cut-off can make an
-unflagged student appear flagged, and the higher confidence of the chart group, without any gain in
-accuracy, signals a risk of over-reliance.
+improve support decisions. The task was easy without charts, as flagged profiles were visibly weak,
+and for Group~B it partly became a chart-reading exercise, since adding up the bars largely
+reconstructs the flag (Section~\ref{sec:audit}). With accuracy near the ceiling, the absence of a
+gain cannot be taken as proof that explanations lack value. Two warnings nevertheless emerge. Case
+C01 shows that bars displayed without the cohort cut-off can make an unflagged student appear
+flagged, and the higher confidence of the chart group, without any gain in accuracy, signals a risk
+of over-reliance.
+
 \subsection{Protected Attributes, Fairness and Deployment Boundaries}
 
 Whether gender, age or nationality should influence who receives a meeting is contested. Retaining
-them reflects real differences in base rates, and a model blind to them can still be unfair through
-proxies such as application route and course. On validation, however, removing them cost almost
-nothing (ROC-AUC 0.952 to 0.950), altered only 5 of 108 flags and narrowed the gender recall gap
-from 0.19 to 0.10; moreover, allocating
-outreach on the basis of who a student is, rather than how the student is performing, would be
-difficult to justify. The position adopted here is therefore to \emph{audit} with protected
-attributes but not to \emph{prioritise} with them. Subgroup results are descriptive, not a fairness
-certificate.
+these attributes reflects real differences in base rates, while a model blind to them can still be
+unfair through proxies such as application route and course. On validation, however, removing them
+cost almost nothing and narrowed the gender recall gap (Section~\ref{sec:sensitivity}), and
+allocating outreach on the basis of who a student is, rather than how the student is performing,
+would be difficult to justify. The position adopted here is therefore to \emph{audit} with protected
+attributes but not to \emph{prioritise} with them. The subgroup results are descriptive and do not
+constitute a fairness certificate.
 
 \subsection{Threats to Validity}
 
-The evidence comes from one Portuguese institution without external or temporal validation, tests
-one foundation model (TabPFN was not compared), assumes rather than measures the 20\% capacity,
-excludes enrolled students and rests on a single test set of 545 students whose intervals are wide relative to
-model differences. The full explanation audit followed the final test, using a refit that matches
-the frozen model, and its results depend on the SHAP budget and the 25-row background. The human
-study used volunteers, ten selected cases and an unsupervised online format; its comparisons are
-exploratory, and its coding is a single pass without measured agreement. None of the results identify causes of dropout or effects of
-interventions.
-
+The evidence comes from one Portuguese institution without external or temporal validation. The
+study tests a single foundation model (TabPFN was not compared), assumes rather than measures the
+20\% capacity, excludes enrolled students and rests on one test set of 545 students, whose intervals
+are wide relative to the differences between models. The full explanation audit followed the final
+test, using a refit that matches the frozen model, and its results depend on the SHAP budget and the
+25-row background. The human study used volunteers, ten selected cases and an unsupervised online
+format; its comparisons are exploratory, and its coding is a single pass without measured agreement.
+Finally, none of the results identify causes of dropout or effects of interventions.

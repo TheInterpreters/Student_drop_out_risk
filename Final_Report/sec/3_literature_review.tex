@@ -27,43 +27,51 @@
 
 \subsection{Student Dropout Prediction}
 
-\citet{realinho2022predicting} released the dataset used in this study~\citep{realinho2021uci}: 4,424
-undergraduates from a Portuguese polytechnic, described by demographic, socio-economic, application,
-first- and second-semester academic and macro-economic attributes and labelled Dropout, Enrolled or
-Graduate, and reported three-class prediction with standard classifiers. The present study instead
-fixes a single prediction time, excludes later-semester information and evaluates at an explicit
-outreach capacity, which are the conditions under which a support office would use the scores.
+The dataset used in this study~\citep{realinho2021uci} was released by \citet{realinho2022predicting},
+who described 4,424 undergraduates from a Portuguese polytechnic through demographic,
+socio-economic, application, first- and second-semester academic and macro-economic attributes,
+labelled each student Dropout, Enrolled or Graduate, and reported three-class baselines with
+standard classifiers. Such accuracy-oriented evaluations, however, use information from the whole
+course of study and do not reflect the constraints of a support office. The present study departs
+from that setting in three ways that mirror how such an office would use the scores: it fixes a
+single prediction time, excludes later-semester information and evaluates performance at an
+explicit outreach capacity.
 
 \subsection{Tabular Foundation Models and Interpretable Baselines}
 
 TabPFN~\citep{hollmann2025tabpfn} and \tabicl~\citep{qu2025tabicl} are transformers pretrained on
-synthetic tables that predict a new row by reading the training rows as context, without gradient
-updates on the target data; \tabicl extends this approach to larger tables through column-then-row
-attention. Strong conventional baselines include logistic regression and gradient-boosted trees
-such as XGBoost~\citep{chen2016xgboost}. Explainable Boosting Machines (EBMs), by contrast, are
-boosted generalised additive models whose per-feature shape functions constitute the
-explanation~\citep{lou2013ebm, caruana2015intelligible}. \citet{rudin2019stop} argues that such models
-should be preferred in high-stakes settings when accuracy is comparable, a claim this study tests
-directly.
+synthetic tables; they predict a new row by reading the training rows as context, without gradient
+updates on the target data, and \tabicl extends this approach to larger tables through
+column-then-row attention. Their reported strength on benchmarks makes them attractive for small
+institutional datasets, yet their internal reasoning is not open to inspection. Strong conventional
+baselines include logistic regression and gradient-boosted trees such as
+XGBoost~\citep{chen2016xgboost}. Explainable Boosting Machines (EBMs), by contrast, are boosted
+generalised additive models whose per-feature shape functions are themselves the
+explanation~\citep{lou2013ebm, caruana2015intelligible}. \citet{rudin2019stop} argues that
+interpretable models of this kind should be preferred in high-stakes settings when accuracy is
+comparable, a claim that this study tests directly by comparing \tabicl with an EBM under the same
+decision rule.
 
 \subsection{Evaluating Explanations}
 
 SHAP attributes a prediction to features using Shapley values~\citep{lundberg2017shap}. For
-black-box models these values are estimated by sampling and therefore depend on the sampling
+black-box models, these values are estimated by sampling and consequently depend on the sampling
 budget, the random seed and the background data that defines the ``typical'' reference.
-\citet{nauta2023evaluation} recommend measuring properties such as correctness (faithfulness) and
-consistency (stability) quantitatively rather than relying on anecdotes, and
-\citet{tiukhova2024stability} show that explanations of student-success models can be unstable
-across refits. Counterfactual explanations~\citep{wachter2017counterfactual} describe which change
-would alter a prediction; however, \citet{karimi2021recourse} caution that a feasible change to a
-feature is not equivalent to an effective real-world intervention. Global behaviour can be
-summarised with accumulated local effects (ALE)~\citep{apley2020ale}.
+\citet{nauta2023evaluation} recommend measuring properties such as faithfulness and stability
+quantitatively rather than relying on anecdotes, and \citet{tiukhova2024stability} show that
+explanations of student-success models can be unstable across refits. Counterfactual
+explanations~\citep{wachter2017counterfactual} describe which change would alter a prediction,
+although \citet{karimi2021recourse} caution that a feasible change to a feature is not equivalent
+to an effective real-world intervention. At the global level, model behaviour can be summarised with
+accumulated local effects (ALE)~\citep{apley2020ale}, which remain reliable when features are
+correlated. Taken together, these studies suggest that an explanation should be judged by several
+measurable properties rather than by its plausibility alone.
 
-\subsection{Human-Centred Explainability Evaluation}
+\subsection{Human-Centred Evaluation}
 
 \citet{doshivelez2018considerations} distinguish application-grounded, human-grounded and
-functionally-grounded evaluation. Forward simulation, in which people predict a model's output from
-its input with or without an explanation, is a common human-grounded test~\citep{hase2020forward}.
-It measures whether an explanation makes the model's behaviour predictable, not whether people
-trust the model appropriately or make better decisions; this distinction is maintained throughout
-the interpretation of the study.
+functionally-grounded evaluation. Among human-grounded methods, forward simulation asks people to
+predict a model's output from its input, with or without an explanation~\citep{hase2020forward}.
+Such a test measures whether an explanation makes the model's behaviour predictable, not whether
+people trust the model appropriately or make better decisions, and this distinction is maintained
+throughout the present study.

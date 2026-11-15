@@ -1,17 +1,19 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-This study examined whether a tabular foundation model and its explanations are justified for
-capacity-limited student outreach. \tabicl ranked students well (ROC-AUC 0.957), but its differences
-from XGBoost, logistic regression and an interpretable EBM lay within paired-bootstrap uncertainty;
-its additional complexity is therefore unsupported on this task. Its SHAP explanations were
-faithful under deletion but sensitive to the random seed and comparison group, and mostly restated
-weak first-semester results. The human study found no evidence that charts improved predictions of
-the flag (difference $-0.016$), while confidence was slightly higher and one unflagged case had
-lower accuracy with charts.
+This study asked whether a support office should use a black-box model, the tabular foundation
+model \tabicl, to prioritise capacity-limited student outreach, and on this dataset the answer is
+negative. \tabicl ranked students well, but its differences from XGBoost, logistic regression and an
+interpretable EBM lay within paired-bootstrap uncertainty, so its additional complexity is
+unsupported. Its SHAP explanations were faithful under deletion, yet sensitive to the random seed
+and comparison group, and they mostly restated weak first-semester results. In the human study,
+charts did not improve predictions of the flag (difference $-0.016$) but slightly raised confidence,
+and one unflagged case was misread more often with charts.
 
-Overall, the evidence favours a transparent model for further validation to \emph{order}, not
-determine, a contact list. A next-stage design should combine a zero-pass check with transparent
-ranking, display the cohort cut-off and explanation uncertainty, and retain adviser review.
-Evidence from one institution and proxy users does not establish deployment validity.
-Current-cohort evaluation with support staff is required; the system must never deny support.
+The EBM is consequently the reference model that a support office should validate next: it matched
+the foundation model at the operating point, and its explanations are exact contributions of the
+model itself rather than estimates that change on recomputation. A next-stage design should combine
+a zero-pass check with this transparent ranking, display the cohort cut-off and the uncertainty of
+each explanation, and keep an adviser responsible for every contact. As the evidence comes from one
+institution and proxy users, evaluation on a current cohort with support staff is required before
+any use, and the system must never be used to deny support.
