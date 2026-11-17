@@ -86,3 +86,9 @@ __pycache__/
 /Final_Report/Student_Dropout_Risk_Presentation.pdf
 /Final_Report/presentation_assets/
 /scripts/build_final_presentation.ps1
+
+# Local final-presentation defence preparation (exact files only).
+/Final_Presentation_QA_Preparation.docx
+/Final_Presentation_QA_Preparation_Audited.docx
+/docs/FINAL_PRESENTATION_QA_PREPARATION.md
+/scripts/build_qa_docx.py
