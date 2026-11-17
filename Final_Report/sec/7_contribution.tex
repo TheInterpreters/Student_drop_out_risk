@@ -57,10 +57,12 @@ The human study tested whether people could predict the model's flag, not whethe
 improve support decisions. The task was easy without charts, as flagged profiles were visibly weak,
 and for Group~B it partly became a chart-reading exercise, since adding up the bars largely
 reconstructs the flag (Section~\ref{sec:audit}). With accuracy near the ceiling, the absence of a
-gain cannot be taken as proof that explanations lack value. Two warnings nevertheless emerge. Case
-C01 shows that bars displayed without the cohort cut-off can make an unflagged student appear
-flagged, and the higher confidence of the chart group, without any gain in accuracy, signals a risk
-of over-reliance.
+gain cannot be taken as proof that explanations lack value. Two warnings nevertheless emerge. For
+C01, an unflagged student, accuracy fell from 60\% with the profile alone to 20\% with the
+explanation chart. This suggests that participants may have confused contributions increasing risk
+relative to the reference group with crossing the cohort's top-20\% outreach cut-off; the study did
+not directly test whether displaying the cut-off would prevent this confusion. The higher
+confidence of the chart group, without any gain in accuracy, also signals a risk of over-reliance.
 
 \subsection{Protected Attributes, Fairness and Deployment Boundaries}
 
