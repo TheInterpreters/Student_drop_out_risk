@@ -100,7 +100,8 @@ Only students with $\geq$1 first-semester evaluation (frozen model, re-ranked) &
 
 \begin{table}[H]
 \centering
-\caption{Descriptive subgroup diagnostics (-- = suppressed, fewer than 30).}
+\caption{Descriptive subgroup diagnostics (-- = suppressed when the relevant metric denominator is
+fewer than 30; for recall, this is the number of dropout cases in the subgroup).}
 \label{tab:subgroups}
 \footnotesize
 \begin{tabular}{@{}llcccc@{\hspace{18pt}}cc@{}}
@@ -188,8 +189,8 @@ Why flagged & Explanation chart & 36.0 & Suggested support & Academic support & 
 \label{sec:app-legal}
 
 No formal legal review was carried out; this section indicates which data-protection rules would be
-relevant if the approach were taken further. The UCI dataset is anonymised and public, so the
-modelling itself processes no personal data. The participant responses, by contrast, remain
+relevant if the approach were taken further. The publicly distributed UCI dataset contains no direct
+identifiers. The participant responses, by contrast, remain
 pseudonymous rather than anonymous while the case-linkage files exist, and would therefore count as
 personal data under both the EU General Data Protection Regulation (GDPR)~\citep{gdpr2016} and
 Thailand's Personal Data Protection Act (PDPA)~\citep{pdpa2019}. Both laws rest on principles such as
@@ -209,8 +210,12 @@ before any use.
 \label{sec:app-interface}
 
 To illustrate how the outputs could reach a support officer, a self-contained local web page was
-built for the 543 validation students not used in the study (Figure~\ref{fig:interface}). The page
-displays the outputs of the frozen \tabicl model audited in this report. Its purpose is to illustrate
+built with 543 selectable validation records (Figure~\ref{fig:interface}). The validation cohort
+contains 544 records, but one was used as the unscored practice example that familiarised
+participants with the human-study task and was therefore omitted from the selectable interface.
+Cohort ranks and the top-20\% outreach cut-off are nevertheless calculated from all 544 validation
+records, which is why the interface's audit panel reports a cohort of 544. The page displays the
+outputs of the frozen \tabicl model audited in this report. Its purpose is to illustrate
 how explanations and their stability might be presented to support staff, not to endorse a
 particular model; any future version intended for practical use would be built on the recommended
 EBM (Section~\ref{sec:conclusion}). For each
@@ -219,7 +224,7 @@ curve, the five largest grouped contributions, the stability of that explanation
 recourse check (labelled as model behaviour rather than advice) and the profile. An optional local
 what-if mode re-scores an edited copy of a student with the frozen \tabicl model, allowing changes to
 first-semester results and fee, debt or scholarship status only. This mode keeps the other 543
-scores fixed, rejects impossible combinations (for example, more units passed than enrolled) and
+validation scores fixed, rejects impossible combinations (for example, more units passed than enrolled) and
 reproduced all 104 saved fee/debt scenarios (largest probability difference $4.1\times10^{-6}$,
 identical ranks). Figure~\ref{fig:interface}(b) applies it to student 174, whose flag is removed by
 clearing the unpaid fees and the debt (Section~\ref{sec:audit}); such results describe how the
@@ -237,6 +242,8 @@ constitutes a demonstration rather than evidence.
 \includegraphics[height=0.43\textheight]{figures/interface_whatif_174.png}\\[2pt]
 {\small (b) What-if mode: fees paid and debt cleared}
 \end{minipage}
-\caption{Local research interface (validation students only): (a) saved view for student 916; (b) what-if mode for student 174.}
+\caption{Local research interface: 543 validation records are selectable, while ranks and the
+top-20\% cut-off use the full 544-record validation cohort. (a) Saved view for student 916;
+(b) what-if mode for student 174.}
 \label{fig:interface}
 \end{figure}

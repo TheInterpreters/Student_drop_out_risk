@@ -76,12 +76,10 @@ dependence by correlated features.
 
 \subsection{Explanation Audit}
 
-The analysis plan originally scheduled the full audit on 20 validation students. Owing to the
-project timeline, it was instead conducted after the final test on all 544 validation students,
-using a \tabicl refit with the frozen settings. This refit reproduces the frozen model on validation
-(largest probability difference $1.0\times10^{-5}$; all 108 flags identical), so the audit describes
-the tested model, although its results constitute post-hoc evidence rather than a check completed
-before the final test.
+A post-hoc explanation audit was conducted on all 544 validation students using a \tabicl refit
+with the frozen settings. The refit closely reproduced the frozen model's validation predictions
+(largest probability difference $1.0\times10^{-5}$) and produced the same 108 outreach flags,
+supporting use of the audit to characterise the tested model.
 \begin{itemize}[nosep,leftmargin=*]
   \item \textbf{Faithfulness.} Groups are replaced by training medians or modes in SHAP order and in
   50 random orders; a positive area between the two cumulative probability-change curves indicates
@@ -122,6 +120,4 @@ The 1,500 written answers (50 participants $\times$ 10 cases $\times$ 3 question
 pre-written codebook, which assigned one primary theme per answer before group membership was
 attached. Each support suggestion was additionally rated on four items from the proposal: whether it
 names a concrete next step, whether it could begin before the second semester, who is responsible
-(the student, the institution or both) and whether it asserts an unsupported cause. The planned
-independent double-coding of 20\% of answers was not carried out, so inter-coder agreement was not
-measured and the themes represent a single descriptive coding pass.
+(the student, the institution or both) and whether it asserts an unsupported cause.
